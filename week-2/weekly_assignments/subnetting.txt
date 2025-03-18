@@ -1,0 +1,30 @@
+ Address Block: 192.168.0.0/16
+
+Step 1: Identify the Available IPs
+- Given Network: 192.168.0.0/16
+- Total IPs in /16 subnet: 2^(32-16) = 65,536 IPs
+- Default Subnet Mask: 255.255.0.0
+
+Step 2: Determine the Required Subnet Size
+- We need to divide the network into 5 subnets.
+- The next power of 2 that can accommodate at least 5 networks is 8 (since subnetting works in powers of 2).
+- Required additional subnet bits: 3
+- New Subnet Mask: /19 (255.255.224.0)
+- IPs per Subnet: 2^(32-19) = 8192 IPs per subnet
+
+Step 3: Assign Subnets to Projects
+
+| Project  | Subnet Address   | First Usable IP | Last Usable IP  | Broadcast Address  |
+|----------|-----------------|-----------------|-----------------|--------------------|
+| Project 1 | 192.168.0.0/19  | 192.168.0.1  | 192.168.31.254 | 192.168.31.255  |
+| Project 2 | 192.168.32.0/19 | 192.168.32.1 | 192.168.63.254 | 192.168.63.255  |
+| Project 3 | 192.168.64.0/19 | 192.168.64.1 | 192.168.95.254 | 192.168.95.255  |
+| Project 4 | 192.168.96.0/19 | 192.168.96.1 | 192.168.127.254 | 192.168.127.255  |
+| Project 5 | 192.168.128.0/19 | 192.168.128.1 | 192.168.159.254 | 192.168.159.255  |
+
+Final Answer:
+- Subnet mask for each project: /19 (255.255.224.0)
+- Each project gets: 8192 IPs
+- 5 different subnets allocated from 192.168.0.0/16
+- Total of 8 possible subnets  
+
