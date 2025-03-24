@@ -1,0 +1,20 @@
+CIDR Notation for Given IP Address
+
+Given:
+- IP Address: 135.1.1.25
+- Subnet Mask: 255.255.248.0
+
+Step 1: Convert Subnet Mask to Binary
+255.255.248.0 in binary:
+11111111.11111111.11111000.00000000
+
+Step 2: Count the Number of 1s
+The number of 1s in the subnet mask = 21
+
+Step 3: Write in CIDR Notation
+CIDR notation format:
+IP Address / Number of 1s in Subnet Mask
+
+Final CIDR Notation:
+135.1.1.25/21
+

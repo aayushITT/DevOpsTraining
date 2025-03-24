@@ -1,0 +1,69 @@
+ 
+Step-by-Step Subnetting of Class C IP Address 205.11.2.0 to Create 30 Subnets
+
+Given Data:
+- IP Address: 205.11.2.0 (Class C)
+- Default Subnet Mask: 255.255.255.0
+- Required Subnets: 30
+
+Step 1: Determine the Subnet Bits Required
+Class C has 8 bits available for the host part (last octet).
+
+Formula for number of subnets:
+2^n ≥ required subnets
+where n is the number of bits borrowed from the host part.
+
+Find n for at least 30 subnets:
+2^5 = 32 (since 2^4 = 16 is not enough)
+So, borrow 5 bits from the host part.
+
+Step 2: Find the New Subnet Mask
+Default Subnet Mask (Class C): 255.255.255.0
+Borrowing 5 bits, the subnet mask becomes:
+
+Binary Representation:
+11111111.11111111.11111111.11111000
+
+Converted to Decimal:
+255.255.255.248
+
+New Subnet Mask: 255.255.255.248
+
+Step 3: Calculate the Number of Hosts per Subnet
+Formula:
+2^h - 2
+where h is the number of remaining host bits (8 - 5 = 3).
+
+2^3 - 2 = 6
+Each subnet can have 6 usable hosts.
+
+Step 4: Determine the Subnet Increments
+The increment is determined by 2^h (where h = 3):
+2^3 = 8
+
+Subnet Ranges (Step Size = 8):
+
+Subnet  | Network Address | First Host  | Last Host   | Broadcast Address
+--------|----------------|------------|------------|-------------------
+1       | 205.11.2.0     | 205.11.2.1  | 205.11.2.6  | 205.11.2.7
+2       | 205.11.2.8     | 205.11.2.9  | 205.11.2.14 | 205.11.2.15
+3       | 205.11.2.16    | 205.11.2.17 | 205.11.2.22 | 205.11.2.23
+...     | ...            | ...         | ...         | ...
+30      | 205.11.2.232   | 205.11.2.233| 205.11.2.238| 205.11.2.239
+
+Step 5: Find the IP Address of Host 3 on Subnet 2
+- Subnet 2 starts at: 205.11.2.8
+- First host: 205.11.2.9
+- Second host: 205.11.2.10
+- Third host: 205.11.2.11
+
+IP Address of Host 3 on Subnet 2: 205.11.2.11
+
+Final Answers:
+- Subnet Mask: 255.255.255.248
+- Maximum Hosts per Subnet: 6
+<<<<<<< HEAD
+- IP Address of Host 3 on Subnet 2: 205.11.2.11
+=======
+- IP Address of Host 3 on Subnet 2: 205.11.2.11
+>>>>>>> 8bb7404e5b044e15c7ab32601303da69982d3496
