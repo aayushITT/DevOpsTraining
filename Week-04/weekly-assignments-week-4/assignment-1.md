@@ -1,95 +1,130 @@
 **Assignment 1: Deploy a sample application on EC2 instance that should store data on RDS. Use AWS secrets manager for storing the connection strings**
 
-1. Create an EC2 instance
+ 
 
-Step 1. Select EC2 service and click on launch instance.
+### Step 1: Log in to AWS Management Console
+1. Go to the [AWS Management Console](https://aws.amazon.com/console/).
+2. Sign in with your AWS credentials.
 
-Step 2. Add name to the instance and choose amazon linux as operating system.
+### Step 2: Navigate to EC2
+1. In the AWS Management Console, search for and select **EC2**.
+2. Click on **Instances** in the left sidebar.
 
-Step 3. Click on launch instance.
+### Step 3: Launch a New Instance
+1. Click on the **Launch Instance** button.
+2. **Choose an Amazon Machine Image (AMI)**:
+   - Select an AMI (e.g., Amazon Linux 2, Ubuntu Server).
+3. **Choose an Instance Type**:
+   - Select an instance type (e.g., t2.micro for free tier).
+4. **Configure Instance**:
+   - Click **Next: Configure Instance Details** and leave the default settings.
+5. **Add Storage**:
+   - Click **Next: Add Storage** and keep the default size.
+6. **Configure Security Group**:
+   - Click **Next: Configure Security Group**.
+   - Create a new security group and allow:
+     - SSH (port 22) from your IP address.
+     - Custom TCP Rule (port 3306) for MySQL.
+7. **Review and Launch**:
+   - Click **Review and Launch**.
+8. **Launch**:
+   - Click **Launch** and select an existing key pair or create a new one for SSH access.
+   ![alt text](../Week-4.images/WA(ec2).png)
 
-![alt text](../Week-4.images/image-1.png)
+### Step 4: Connect to Your EC2 Instance
+1. Once the instance is running, select it and note the public IP address.
+2. SSH into your EC2 instance:
 
-2. Create RDS database
+### Step 5: Navigate to RDS
+   - Select "RDS" and go to "Databases".
+### Step 6: Select Your RDS Instance
+   - Click on your RDS instance.
+   ![alt text](../Week-4.images/WA(database).png)
+### Step 7: Connect to Your RDS Instance
+   - Use a MySQL client or command line to connect to the database.
+### Step 8: Create the New Database
+   - Run a command to create a new database.
+   ![alt text](../Week-4.images/image.png)
+### Step 9: Verify the Database Creation
+   - Check the list of databases to confirm it was created.
+### Step 10: Store Database Credentials in Secrets Manager
+   - Navigate to "Secrets Manager" and create a new secret.
+   - Add key-value pairs for username, password, host, port, and database name.
+   ![alt text](../Week-4.images/WA(secrets).png)
+### Step 11: Update Your Application
+   - Ensure your application code retrieves the database name from Secrets Manager.
+   # Application to Connect to RDS Using AWS Secrets Manager
 
-Step 1. Select RDS service and click on create DB instance.
+```python
+import boto3
+import json
+import pymysql
 
-Step 2. Select standard create and choose engine option as "MySQL".
+def main():
+    client = boto3.client('secretsmanager', region_name='ap-south-1')  # Use your region here
 
-Step 3. Choose free tier template and add database name, user name and password.
+    try:
+        response = client.get_secret_value(SecretId="rds-connection-test")
+        secret = json.loads(response['SecretString'])
 
-Step 4. Choose VPC same in which the EC2 instance is created.
+        username = secret['username']
+        password = secret['password']
+        host = secret['host']
+        port = int(secret['port'])
+        dbname = secret.get('dbname')
 
-Step 5. Select "No" to public access and click on create database.
+        if not dbname:
+            raise ValueError("The 'dbname' key is missing from the secret.")
 
-![alt text](../Week-4.images/image-1%20(1).png)
+        # Establishing the database connection
+        connection = pymysql.connect(
+            host=host,
+            user=username,
+            password=password,
+            database=dbname,
+            port=port
+        )
 
-3. Create Secrets
+        print("Connection established successfully!")
 
-Step 1. Select AWS secret manager service and click on create secret.
+        cursor = connection.cursor()
 
-Step 2. Select secret type to RDS database and add username, password, choose encryption type and add database.
+        # Create a table if it doesn't exist
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS users (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(100),
+                email VARCHAR(100)
+            );
+        """)
+        print("Table 'users' checked/created successfully.")
 
-Step 3. Configure the secret by adding name to secret and click on review and save to create a secret.
+        # Insert sample data
+        cursor.execute("INSERT INTO users (name, email) VALUES ('John Doe', 'john.doe@example.com');")
+        cursor.execute("INSERT INTO users (name, email) VALUES ('Jane Smith', 'jane.smith@example.com');")
+        connection.commit()
+        print("Sample data inserted successfully.")
 
-![alt text](../Week-4.images/image-2.png)
+        # Retrieve and display data
+        cursor.execute("SELECT * FROM users;")
+        rows = cursor.fetchall()
 
-4. Create a role
+        print("Data in 'users' table:")
+        for row in rows:
+            print(row)
 
-Step 1. Select IAM service and click on create role.
+        cursor.close()
+        connection.close()
 
-Step 2. Select EC2 as AWS service to the role and attach below policy to the role.
+    except Exception as e:
+        print(f"Error: {e}")
 
-![alt text](../Week-4.images/image-3.png)
-
-Step 3. Click on create role.
-
-5. Attach role to the EC2
-
-Step 1. Select the created EC2 instance and click on actions.
-
-Step 2. Select security and click on modify IAM role.
-
-Step 3. Attach role created and click on save changes.
-
-6. Connect to RDS thorugh EC2 using secret manager to access database credentials
-
-Step 1. Connect to EC2 instance using command :
-
-# ssh -i <path of key pair> ec2_user@<public ip address>
-
-Step 2. Check for aws cli by running command :
-
-# aws --version
-
-Step 3. Install mysql-client by running these commands:
-
-# sudo apt update
-# sudo dnf install mariadb105
-
-Check if mysql is installed or not :
-
-# mysql --version
-
-Step 4. Run this command to get database access credentials:
-
-# aws secretsmanager get-secret-value --secret-id demo-secret-manager --query 'SecretString' --output text
-
-Step 5. Store access credentials in variables:
-
-# SECRET=$(aws secretsmanager get-secret-value --secret-id demo-secret-manager --query 'SecretString' --output text)
-
-# DB_HOST=$(echo $SECRET | jq -r '.host')
-
-# DB_USER=$(echo $SECRET | jq -r '.username')
-
-# DB_PASS=$(echo $SECRET | jq -r '.password')
-
-Step 6. Access mysql using this command:
-
-# mysql -h $DB_HOST -u $DB_USER -p$DB_PASS
-
-![alt text](../Week-4.images/image-4.png)
+if __name__ == "__main__":
+    main()
+```
+### Step 12: Run Your Application
+   - Execute your application to connect to the new database.
+     ![alt text](../Week-4.images/WA(application_runned_successfully).png)
 
 
-**Assignment 2:Create alarm in cloudwatch on the basis of average CPU utilisation for a VM**
+  
