@@ -1,4 +1,4 @@
- **Assignment : Create a CPU utilisation matrix for an EC2 instance on cloudwatch, and if the CPU utilization goes above 80%, an alarm should get triggered and use SNS topic to send email to the yourself in case of an alarm state.**
+ **Assignment : Create alarm in cloudwatch on the basis of average CPU utilisation for a VM**
 
 **1. Create an EC2 instance:**
 
