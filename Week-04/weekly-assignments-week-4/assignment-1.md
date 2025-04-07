@@ -125,6 +125,28 @@ if __name__ == "__main__":
 ### Step 12: Run Your Application
    - Execute your application to connect to the new database.
      ![alt text](../Week-4.images/WA(application_runned_successfully).png)
+### Step 13: Create a CloudWatch Alarm
+
+**1. Navigate to CloudWatch**
+In the AWS Management Console, search for and select **CloudWatch**.
+
+**2. Create an Alarm**
+- Click on **Alarms** and then **Create Alarm**.
+ ![alt text](../Week-4.images/day-4(alarm).png)
+- Choose **Select metric** and navigate to **EC2 metrics**.
+- Select **Per-Instance Metrics** and choose the **CPU utilization** metric for your instance.
+- Click **Select metric**.
+
+**3. Configure Alarm Settings**
+- Set conditions for the alarm (e.g., whenever CPU utilization is greater than 80% for 5 minutes).
+- Configure actions (e.g., send a notification to an SNS topic).
+ ![alt text](../Week-4.images/day-4(subscription).png)
+
+  ![alt text](../Week-4.images/Day-4(subscription-2).png)
+
+ ![alt text](../Week-4.images/Day-4(topic).png)
+**4. Name and Create Alarm**
+- Provide a name and description for the alarm and click **Create alarm**.
 
 
   
