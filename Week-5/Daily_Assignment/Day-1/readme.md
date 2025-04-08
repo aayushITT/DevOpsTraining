@@ -4,7 +4,7 @@
 
 Terraform is an Infrastructure as Code (IaC) tool that allows you to define and provision infrastructure using a declarative configuration language. It supports multiple cloud providers and helps automate infrastructure management.
 
-## Key Concepts
+### Key Concepts
 
 1. **Configuration Files**:
    - Infrastructure is defined in `.tf` files using HashiCorp Configuration Language (HCL).
@@ -24,9 +24,9 @@ Terraform is an Infrastructure as Code (IaC) tool that allows you to define and 
 6. **Modules**:
    - Modules are reusable groups of resources that can be called multiple times within your configuration, promoting organization and reuse.
 
-# Ways to Approach Infrastructure as Code (IaC)
+## Ways to Approach Infrastructure as Code (IaC)
 
-## 1. Declarative Approach
+### 1. Declarative Approach
 - **Description**: You define the desired state of your infrastructure, and the IaC tool determines how to achieve that state.
 - **Examples**: 
   - Terraform
@@ -35,7 +35,7 @@ Terraform is an Infrastructure as Code (IaC) tool that allows you to define and 
   - Simplifies the management of complex infrastructures.
   - Focus on what you want rather than how to get there.
 
-## 2. Imperative Approach
+### 2. Imperative Approach
 - **Description**: You specify the exact commands needed to achieve the desired infrastructure state, detailing each step of the process.
 - **Examples**: 
   - Ansible (can be used in both declarative and imperative styles)
@@ -44,7 +44,7 @@ Terraform is an Infrastructure as Code (IaC) tool that allows you to define and 
   - Greater control over the deployment process.
   - Useful for straightforward, one-off scripts.
 
-# HCL Syntax (HashiCorp Configuration Language)
+## HCL Syntax (HashiCorp Configuration Language)
 
 HCL is the configuration language used by Terraform for defining infrastructure as code. It is designed to be both human-readable and machine-friendly.
 
@@ -96,68 +96,68 @@ The lock file is created by Terraform when you issue the terraform init command.
 
 1. Initialize and download plugins
 
-# terraform init
+## terraform init
 
 2. Plan and see what are the resources need to be added comparing with state file
 
-# terraform plan
+## terraform plan
 
 3. Apply the changes which are not present in state file
 
-# terraform apply
+## terraform apply
 
 4. Check for syntax error
 
-# terraform validate
+## terraform validate
 
 5. Check for output
 
-# terraform output
+## terraform output
 
 6. Check for state file
 
-# terraform show
+## terraform show
 
 7. Check for providers or plugins downloaded
 
-# terraform provider
+## terraform provider
 
 8. Visual representation of state
 
-# terraform graph
+## terraform graph
 
 9. Import an existing service from cloud
 
-# terraform import <resource_type>.<resource_name> <id>
+## terraform import <resource_type>.<resource_name> <id>
 
 10. To see the difference between configuration file and previous state
 
-# terraform refresh
+## terraform refresh
 
 11. Create new workspace and switch
 
-# terraform workspace new <workspace_name>
+## terraform workspace new <workspace_name>
 
 12. Switch to existing workspace
 
-# terraform workspace select <existing_workspace_name>
+## terraform workspace select <existing_workspace_name>
 
 13. List all workspace
 
-# terraform workspace list
+## terraform workspace list
 
 14. Show current workspace
 
-# terraform workspace show
+## terraform workspace show
 
 15. Delete specified workspace
 
-# terraform workspace delete <specified_workspace_name>
+## terraform workspace delete <specified_workspace_name>
 
 16. Destroy the infrastructure created
 
-# terraform destroy
+## terraform destroy
 
 17. Get the current state and outputs it to a local file
 
-# terraform state pull > state.tfstate
+## terraform state pull > state.tfstate
