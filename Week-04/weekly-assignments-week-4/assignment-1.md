@@ -29,7 +29,7 @@
    - Click **Review and Launch**.
 8. **Launch**:
    - Click **Launch** and select an existing key pair or create a new one for SSH access.
-   ![alt text](../Week-4.images/WA(ec2).png)
+   ![alt text](../Week-4.images/8(ec2).png)
 
 ### Step 4: Connect to Your EC2 Instance
 1. Once the instance is running, select it and note the public IP address.
@@ -39,92 +39,74 @@
    - Select "RDS" and go to "Databases".
 ### Step 6: Select Your RDS Instance
    - Click on your RDS instance.
-   ![alt text](../Week-4.images/WA(database).png)
+   ![alt text](../Week-4.images/8(mydatabase).png)
 ### Step 7: Connect to Your RDS Instance
    - Use a MySQL client or command line to connect to the database.
 ### Step 8: Create the New Database
    - Run a command to create a new database.
-   ![alt text](../Week-4.images/image.png)
+   ![alt text](../Week-4.images/8(table_database).png)
 ### Step 9: Verify the Database Creation
    - Check the list of databases to confirm it was created.
 ### Step 10: Store Database Credentials in Secrets Manager
    - Navigate to "Secrets Manager" and create a new secret.
    - Add key-value pairs for username, password, host, port, and database name.
-   ![alt text](../Week-4.images/WA(secrets).png)
+   ![alt text](../Week-4.images/8(my-secret).png)
 ### Step 11: Update Your Application
    - Ensure your application code retrieves the database name from Secrets Manager.
    # Application to Connect to RDS Using AWS Secrets Manager
 
+
 ```python
+from flask import Flask, request, render_template
 import boto3
 import json
 import pymysql
 
-def main():
-    client = boto3.client('secretsmanager', region_name='ap-south-1')  # Use your region here
+app = Flask(__name__)
 
-    try:
-        response = client.get_secret_value(SecretId="rds-connection-test")
-        secret = json.loads(response['SecretString'])
+def get_db_connection():
+    client = boto3.client('secretsmanager', region_name='ap-south-1')
+    response = client.get_secret_value(SecretId="my-rds-secret0001") 
+    secret = json.loads(response['SecretString'])
+    
+    connection = pymysql.connect(
+        host=secret['host'],
+        user=secret['username'],
+        password=secret['password'],
+        database=secret['dbname'],
+        port=int(secret['port'])
+    )
+    return connection
 
-        username = secret['username']
-        password = secret['password']
-        host = secret['host']
-        port = int(secret['port'])
-        dbname = secret.get('dbname')
-
-        if not dbname:
-            raise ValueError("The 'dbname' key is missing from the secret.")
-
-        # Establishing the database connection
-        connection = pymysql.connect(
-            host=host,
-            user=username,
-            password=password,
-            database=dbname,
-            port=port
-        )
-
-        print("Connection established successfully!")
-
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        connection = get_db_connection()
         cursor = connection.cursor()
-
-        # Create a table if it doesn't exist
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS users (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                name VARCHAR(100),
-                email VARCHAR(100)
-            );
-        """)
-        print("Table 'users' checked/created successfully.")
-
-        # Insert sample data
-        cursor.execute("INSERT INTO users (name, email) VALUES ('John Doe', 'john.doe@example.com');")
-        cursor.execute("INSERT INTO users (name, email) VALUES ('Jane Smith', 'jane.smith@example.com');")
+        cursor.execute("INSERT INTO users (name, email) VALUES (%s, %s)", (name, email))
         connection.commit()
-        print("Sample data inserted successfully.")
-
-        # Retrieve and display data
-        cursor.execute("SELECT * FROM users;")
-        rows = cursor.fetchall()
-
-        print("Data in 'users' table:")
-        for row in rows:
-            print(row)
-
         cursor.close()
         connection.close()
-
-    except Exception as e:
-        print(f"Error: {e}")
+        return f"Added {name} with email {email}!"
+    return '''
+        <form method="post">
+            Name: <input type="text" name="name"><br>
+            Email: <input type="text" name="email"><br>
+            <input type="submit" value="Submit">
+        </form>
+    '''
 
 if __name__ == "__main__":
-    main()
-```
+    app.run(host='0.0.0.0', port=5000)
+   ```
 ### Step 12: Run Your Application
    - Execute your application to connect to the new database.
-     ![alt text](../Week-4.images/WA(application_runned_successfully).png)
+     ![alt text](../Week-4.images/8(app-1).png)
+     ![alt text](../Week-4.images/8(app-2).png)
+     ![alt text](../Week-4.images/8(table_database).png)
+
 ### Step 13: Create a CloudWatch Alarm
 
 **1. Navigate to CloudWatch**
@@ -132,7 +114,7 @@ In the AWS Management Console, search for and select **CloudWatch**.
 
 **2. Create an Alarm**
 - Click on **Alarms** and then **Create Alarm**.
- ![alt text](../Week-4.images/day-4(alarm).png)
+ ![alt text](../Week-4.images/8(myalarm).png)
 - Choose **Select metric** and navigate to **EC2 metrics**.
 - Select **Per-Instance Metrics** and choose the **CPU utilization** metric for your instance.
 - Click **Select metric**.
@@ -140,11 +122,7 @@ In the AWS Management Console, search for and select **CloudWatch**.
 **3. Configure Alarm Settings**
 - Set conditions for the alarm (e.g., whenever CPU utilization is greater than 80% for 5 minutes).
 - Configure actions (e.g., send a notification to an SNS topic).
- ![alt text](../Week-4.images/day-4(subscription).png)
-
-  ![alt text](../Week-4.images/Day-4(subscription-2).png)
-
- ![alt text](../Week-4.images/Day-4(topic).png)
+  
 **4. Name and Create Alarm**
 - Provide a name and description for the alarm and click **Create alarm**.
 
