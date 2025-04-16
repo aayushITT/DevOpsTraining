@@ -11,4 +11,4 @@ Command to run command inside ubuntu container:
 
 # docker run --name MyContainer ubuntu echo "Hello from MyContainer"
 
-![alt text](../day-1/day-1(commandinsideconatainer).png)
+![alt text](../Day-1/day-1(commandinsideconatainer).png)
