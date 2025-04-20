@@ -1,0 +1,6 @@
+/mnt/c/dockerpractice/MyDotNetApp/obj/Debug/net7.0/MyDotNetApp.csproj.AssemblyReference.cache
+/mnt/c/dockerpractice/MyDotNetApp/obj/Debug/net7.0/MyDotNetApp.GeneratedMSBuildEditorConfig.editorconfig
+/mnt/c/dockerpractice/MyDotNetApp/obj/Debug/net7.0/MyDotNetApp.AssemblyInfoInputs.cache
+/mnt/c/dockerpractice/MyDotNetApp/obj/Debug/net7.0/MyDotNetApp.AssemblyInfo.cs
+/mnt/c/dockerpractice/MyDotNetApp/obj/Debug/net7.0/MyDotNetApp.csproj.CoreCompileInputs.cache
+/mnt/c/dockerpractice/MyDotNetApp/obj/Debug/net7.0/MyDotNetApp.MvcApplicationPartsAssemblyInfo.cache
