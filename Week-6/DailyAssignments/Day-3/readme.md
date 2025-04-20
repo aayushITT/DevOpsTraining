@@ -2,7 +2,7 @@
 
 1. Create a Dockerfile for updating current packages and installing git.
 
-![alt text](image-1.png)
+![alt text](../Day-3/Image-1.png)
 
 2. Create a repo on aws using ECR(Elastic Container Registry)
 
