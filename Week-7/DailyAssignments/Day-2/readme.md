@@ -2,21 +2,21 @@
 
 Create a configMap with html-configMap.yaml file using command:
 
-kubectl create -f html-configMap.yaml
+```kubectl create -f html-configMap.yaml```
 
 Create a pod with html-pod.yaml file using command:
 
-kubectl create -f html-pod.yaml
+```kubectl create -f html-pod.yaml```
 
 Create service with html-service.yaml file using command:
 
-kubectl create -f html-service.yaml
+```kubectl create -f html-service.yaml```
 
 ![alt text](../Day-2/apply.png)
 
 Now run command:
 
-minikube service <service_name>
+```minikube service <service_name>```
 
 ![alt text](../Day-2/get.png)
 
