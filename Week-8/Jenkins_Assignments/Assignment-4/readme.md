@@ -106,3 +106,20 @@ Later on only it get triggered when i make any change to my code on github
 
 
 
+5. GitHub hook trigger for GITScm polling
+
+create webhook from github actions
+
+![alt text](../Assignment-4/wh1.png)
+
+check builds before any trigger
+
+![alt text](../Assignment-4/wh2.png)
+
+add any test file
+
+![alt text](../Assignment-4/wh3.png)
+
+check builds after trigger
+
+![alt text](../Assignment-4/wh4.png)
