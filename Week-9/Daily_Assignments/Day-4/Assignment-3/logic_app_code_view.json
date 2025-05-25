@@ -1,0 +1,24 @@
+{
+  "type": "Http",
+  "inputs": {
+    "uri": "https://mydemokeyvault001.vault.azure.net/secrets/demo-secret?api-version=7.1",
+    "method": "PUT",
+    "headers": {
+      "Content-Type": "application/json",
+      "Authorization": ""
+    },
+    "body": {
+      "value": "@outputs('Compose')"
+    }
+  },
+  "runAfter": {
+    "Compose": [
+      "SUCCEEDED"
+    ]
+  },
+  "runtimeConfiguration": {
+    "contentTransfer": {
+      "transferMode": "Chunked"
+    }
+  }
+}
