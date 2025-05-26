@@ -30,10 +30,10 @@ pipeline {
 
     post {
         success {
-            echo "✅ Deployment Successful! Static website deployed."
+            echo "Deployment Successful! Static website deployed."
         }
         failure {
-            echo "❌ Deployment Failed!"
+            echo "Deployment Failed!"
         }
     }
 }
