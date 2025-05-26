@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         WEBSITE_DIR = "/var/www/html"
+        TEMP_DIR = "/tmp/deploy_temp"
     }
 
     stages {
@@ -15,11 +16,15 @@ pipeline {
         stage('Deploy to Apache Server') {
             steps {
                 sh '''
-                    echo "Removing old website files..."
-                    sudo rm -rf ${WEBSITE_DIR}/*
+                    echo "Creating temporary deployment directory..."
+                    rm -rf $TEMP_DIR
+                    mkdir -p $TEMP_DIR
 
-                    echo "Copying new website files..."
-                    sudo cp -r * ${WEBSITE_DIR}/
+                    echo "Copying new website files to temporary directory..."
+                    cp -r * $TEMP_DIR/
+
+                    echo "Swapping new files into place..."
+                    sudo mv $TEMP_DIR/* $WEBSITE_DIR/
 
                     echo "Restarting Apache server..."
                     sudo systemctl restart apache2
@@ -30,7 +35,7 @@ pipeline {
 
     post {
         success {
-            echo "Deployment Successful! Static website deployed."
+            echo "Deployment Successful! Static website deployed without downtime."
         }
         failure {
             echo "Deployment Failed!"
