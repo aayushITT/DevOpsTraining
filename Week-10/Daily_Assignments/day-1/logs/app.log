@@ -1,0 +1,6 @@
+2025-06-01 02:54:54,608 - INFO - Logger Initialized
+2025-06-01 02:54:54,624 - INFO - Successfully read config from config.yaml
+2025-06-01 02:54:54,625 - INFO - Config file content: {'app': {'name': 'MyCoolApp', 'version': '1.2.3', 'debug': True}, 'database': {'host': 'localhost', 'port': 5432, 'username': 'admin', 'password': 'secret', 'name': 'mydatabase'}, 'logging': {'level': 'INFO', 'log_to_file': True}, 'features': {'authentication': True, 'email_notifications': False, 'multi_language_support': True}, 'users': [{'name': 'Alice', 'role': 'admin'}, {'name': 'Bob', 'role': 'user'}]}
+2025-06-01 02:55:02,027 - INFO - Logger Initialized
+2025-06-01 02:55:02,029 - INFO - Successfully read config from config.json
+2025-06-01 02:55:02,030 - INFO - Config file content: [{'app_name': 'AayushLoggerApp', 'version': '1.0.0', 'debug': True, 'database': {'host': 'localhost', 'port': 5432, 'username': 'admin', 'password': 'secret'}, 'features': {'enable_auth': True, 'max_users': 100}, 'log_level': 'INFO'}, {'app_name': 'AayushLoggerApp', 'version': '1.0.0', 'debug': True, 'database': {'host': 'localhost', 'port': 5432, 'username': 'admin', 'password': 'secret'}, 'features': {'enable_auth': True, 'max_users': 100}, 'log_level': 'INFO'}]
