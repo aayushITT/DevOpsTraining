@@ -1,0 +1,44 @@
+pipeline {
+    agent { label 'worker' }
+
+    environment {
+        WEBSITE_DIR = "/var/www/html"
+        TEMP_DIR = "/tmp/deploy_temp"
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', url: 'https://github.com/aayushITT/apache-website.git'
+            }
+        }
+
+        stage('Deploy to Apache Server') {
+            steps {
+                sh '''
+                    echo "Creating temporary deployment directory..."
+                    rm -rf $TEMP_DIR
+                    mkdir -p $TEMP_DIR
+
+                    echo "Copying new website files to temporary directory..."
+                    cp -r * $TEMP_DIR/
+
+                    echo "Swapping new files into place..."
+                    sudo mv $TEMP_DIR/* $WEBSITE_DIR/
+
+                    echo "Restarting Apache server..."
+                    sudo systemctl restart apache2
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Deployment Successful! Static website deployed without downtime."
+        }
+        failure {
+            echo "Deployment Failed!"
+        }
+    }
+}
