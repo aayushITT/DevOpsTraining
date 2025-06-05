@@ -1,0 +1,26 @@
+app:
+  name: MyCoolApp
+  version: 1.2.3
+  debug: true
+
+database:
+  host: localhost
+  port: 5432
+  username: admin
+  password: secret
+  name: mydatabase
+
+logging:
+  level: INFO
+  log_to_file: true
+
+features:
+  authentication: true
+  email_notifications: false
+  multi_language_support: true
+
+users:
+  - name: Alice
+    role: admin
+  - name: Bob
+    role: user

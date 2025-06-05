@@ -1,0 +1,3 @@
+2025-06-01 18:49:19,522 - INFO - Connected (version 2.0, client OpenSSH_9.6p1)
+2025-06-01 18:49:19,748 - INFO - Authentication (publickey) successful!
+2025-06-01 18:49:20,860 - WARNING - /dev/root is using 48% which is exceeding the threshold.

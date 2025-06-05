@@ -1,0 +1,34 @@
+[
+    {
+        "app_name": "AayushLoggerApp",
+        "version": "1.0.0",
+        "debug": true,
+        "database": {
+            "host": "localhost",
+            "port": 5432,
+            "username": "admin",
+            "password": "secret"
+        },
+        "features": {
+            "enable_auth": true,
+            "max_users": 100
+        },
+        "log_level": "INFO"
+    },
+    {
+        "app_name": "AayushLoggerApp",
+        "version": "1.0.0",
+        "debug": true,
+        "database": {
+            "host": "localhost",
+            "port": 5432,
+            "username": "admin",
+            "password": "secret"
+        },
+        "features": {
+            "enable_auth": true,
+            "max_users": 100
+        },
+        "log_level": "INFO"
+    }
+]
