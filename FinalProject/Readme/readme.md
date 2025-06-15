@@ -23,7 +23,7 @@ This project demonstrates the complete infrastructure setup and CI/CD pipeline a
 
 ### 🔄 Application Flow
 
-![Flow](image.png)
+![Flow](ApplicationFlow.png)
 
 **Architecture Highlights:**
 
