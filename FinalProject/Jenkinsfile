@@ -1,0 +1,81 @@
+pipeline {
+    agent { label 'App-Agent' }
+ 
+    environment {
+        IMAGE_TAG = "v1-${env.BUILD_NUMBER}"
+        AWS_REGION = "ap-south-1"
+        APP_PORT = "5000"
+    }
+ 
+    stages {
+        stage('Build & Push Docker Image') {
+            steps {
+                withCredentials([
+                    string(credentialsId: 'ECR_REPO_URL', variable: 'ECR_REPO')
+                ]) {
+                    sh '''
+                        aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPO
+                        docker build -t $ECR_REPO:$IMAGE_TAG -f InfoBuddy/dockerfile InfoBuddy
+                        docker push $ECR_REPO:$IMAGE_TAG
+                    '''
+                }
+            }
+        }
+ 
+        stage('Deploy to EC2 Instances') {
+            parallel {
+                stage('Deploy to webapp1') {
+                    steps {
+                        withCredentials([
+                            sshUserPrivateKey(credentialsId: 'ssh-cred', keyFileVariable: 'EC2_KEY', usernameVariable: 'EC2_USER'),
+                            string(credentialsId: 'ECR_REPO_URL', variable: 'ECR_REPO'),
+                            string(credentialsId: 'RDS-HOST', variable: 'RDS_HOST'),
+                            usernamePassword(credentialsId: 'RDS-USER-CREDS', usernameVariable: 'RDS_USER', passwordVariable: 'RDS_PASS'),
+                            string(credentialsId: 'RDS-NAME', variable: 'RDS_DB_NAME')
+                        ]) {
+                            sh """
+                                ssh -o StrictHostKeyChecking=no -i $EC2_KEY $EC2_USER@65.1.236.86 "\
+                                aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPO && \
+                                docker pull $ECR_REPO:$IMAGE_TAG && \
+                                docker stop flask-app || true && \
+                                docker rm flask-app || true && \
+                                docker run -d --name flask-app -p $APP_PORT:5000 \
+                                    -e DB_HOST=$RDS_HOST \
+                                    -e DB_USER=$RDS_USER \
+                                    -e DB_PASS=$RDS_PASS \
+                                    -e DB_NAME=$RDS_DB_NAME \
+                                    $ECR_REPO:$IMAGE_TAG"
+                            """
+                        }
+                    }
+                }
+ 
+                stage('Deploy to webapp2') {
+                    steps {
+                        withCredentials([
+                            sshUserPrivateKey(credentialsId: 'ssh-cred', keyFileVariable: 'EC2_KEY', usernameVariable: 'EC2_USER'),
+                            string(credentialsId: 'ECR_REPO_URL', variable: 'ECR_REPO'),
+                            string(credentialsId: 'RDS-HOST', variable: 'RDS_HOST'),
+                            usernamePassword(credentialsId: 'RDS-USER-CREDS', usernameVariable: 'RDS_USER', passwordVariable: 'RDS_PASS'),
+                            string(credentialsId: 'RDS-NAME', variable: 'RDS_DB_NAME')
+                        ]) {
+                            sh """
+                                ssh -o StrictHostKeyChecking=no -i $EC2_KEY $EC2_USER@13.200.183.134 "\
+                                aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPO && \
+                                docker pull $ECR_REPO:$IMAGE_TAG && \
+                                docker stop flask-app || true && \
+                                docker rm flask-app || true && \
+                                docker run -d --name flask-app -p $APP_PORT:5000 \
+                                    -e DB_HOST=$RDS_HOST \
+                                    -e DB_USER=$RDS_USER \
+                                    -e DB_PASS=$RDS_PASS \
+                                    -e DB_NAME=$RDS_DB_NAME \
+                                    $ECR_REPO:$IMAGE_TAG"
+                            """
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
