@@ -23,10 +23,6 @@ This project demonstrates the complete infrastructure setup and CI/CD pipeline a
 
 ### 🔄 Application Flow
 
-![Flow](ApplicationFlow.png)
-
-**Architecture Highlights:**
-
 - Users access the application **via the internet**.
 - Traffic first passes through **AWS WAF (Web Application Firewall)** to block malicious requests.
 - Requests reach the **Application Load Balancer (ALB)**.
@@ -37,12 +33,6 @@ This project demonstrates the complete infrastructure setup and CI/CD pipeline a
 ---
 
 ## 🔁 CI/CD Pipeline Flow
-
-![CI/CD Flow](CICDPipelineFlow.png)
-
-This project uses Jenkins pipelines to automate both infrastructure provisioning and application deployment.
-
-### 🧩 Flow Description:
 
 1. Developer pushes code to the [**Application Code Repository**](https://github.com/aayushITT/Terraform-application-infra).
 2. Jenkins master triggers a job on the **Jenkins agent/slave** via GitHub webhook.
