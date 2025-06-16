@@ -68,9 +68,7 @@ This project uses Jenkins pipelines to automate both infrastructure provisioning
 
 ## 🧪 Local Deployment with Minikube 
 
-Run the Flask web application and MySQL database on your local Minikube cluster:
-
-![minikube](minikube.png)
+Run the Flask web application and MySQL database on your local Minikube cluster
 
 Output on browser:
 
