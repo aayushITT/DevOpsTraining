@@ -19,7 +19,7 @@ This project demonstrates the complete infrastructure setup and CI/CD pipeline a
 
 ## 🏗️ Architecture Overview
 
-![Architecture](architectureOverview.png)
+![Architecture](architecture.drawio.png)
 
 ### 🔄 Application Flow
 
