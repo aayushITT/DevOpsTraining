@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: webapp-container
-        image: 536697246803.dkr.ecr.ap-south-1.amazonaws.com/my-ecr-repo:latest
+        image: 536697246803.dkr.ecr.ap-south-1.amazonaws.com/my-ecr-repo:v1-71
         ports:
         - containerPort: 5000
         env:
