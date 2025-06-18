@@ -60,7 +60,7 @@ This project demonstrates the complete infrastructure setup and CI/CD pipeline a
 
 Run the Flask web application and MySQL database on your local Minikube cluster
 
-![Kubernetes Architecture](k8sarchitectureFinal.drawio.png)
+![Kubernetes Architecture](k8sarchitecture%20.final.drawio.png)
 
 Output on browser:
 
