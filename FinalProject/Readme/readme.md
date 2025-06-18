@@ -1,10 +1,10 @@
-# 🚀 Final DevOps Project — Web App Deployment on AWS with RDS Backend
+# Final DevOps Project — Web App Deployment on AWS with RDS Backend
 
 This project demonstrates the complete infrastructure setup and CI/CD pipeline automation for deploying a **Python Flask web application** with a **MySQL RDS backend** on **AWS Cloud**, using best practices and DevOps tools covered over the last 8 weeks.
 
 ---
 
-## 🧰 Tools & Technologies Used
+## Tools & Technologies Used
 
 ![Tools Used](toolsused.png)
 
@@ -17,7 +17,7 @@ This project demonstrates the complete infrastructure setup and CI/CD pipeline a
 
 ---
 
-## 🏗️ Architecture Overview
+## Architecture Overview
 
 ![Architecture](finalArchitecture.drawio.png)
 
@@ -59,6 +59,8 @@ This project demonstrates the complete infrastructure setup and CI/CD pipeline a
 ## 🧪 Local Deployment with Minikube 
 
 Run the Flask web application and MySQL database on your local Minikube cluster
+
+![Kubernetes Architecture](k8sarchitectureFinal.drawio.png)
 
 Output on browser:
 
